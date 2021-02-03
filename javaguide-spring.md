@@ -192,83 +192,83 @@ There are many articles on this part of the Internet, the following content is o
 
 Icon:
 
-![Spring Bean life cycle](http://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-9-17/48376272.jpg)
+![Spring Bean life cycle](https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-9-17/48376272.jpg)
 
 A similar Chinese version:
 
-![Spring Bean life cycle](http://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-9-17/5496407.jpg)
+![Spring Bean life cycle](https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-9-17/5496407.jpg)
 
 ## 6. Spring MVC
 
-### 6.1 说说自己对于 Spring MVC 了解?
+### 6.1 Tell me about your understanding of Spring MVC?
 
-谈到这个问题，我们不得不提提之前 Model1 和 Model2 这两个没有 Spring MVC 的时代。
+When it comes to this issue, we have to mention the previous Model1 and Model2 eras without Spring MVC.
 
-- **Model1 时代** : 很多学 Java 后端比较晚的朋友可能并没有接触过  Model1 模式下的 JavaWeb 应用开发。在 Model1 模式下，整个 Web 应用几乎全部用 JSP 页面组成，只用少量的 JavaBean 来处理数据库连接、访问等操作。这个模式下 JSP 既是控制层又是表现层。显而易见，这种模式存在很多问题。比如①将控制逻辑和表现逻辑混杂在一起，导致代码重用率极低；②前端和后端相互依赖，难以进行测试并且开发效率极低；
-- **Model2 时代** ：学过 Servlet 并做过相关 Demo 的朋友应该了解“Java Bean(Model)+ JSP（View,）+Servlet（Controller）  ”这种开发模式,这就是早期的 JavaWeb MVC 开发模式。Model:系统涉及的数据，也就是 dao 和 bean。View：展示模型中的数据，只是用来展示。Controller：处理用户请求都发送给 ，返回数据给 JSP 并展示给用户。
+- **Model1 era** : Many friends who learn Java back-end late may not have been exposed to JavaWeb application development in Model1 mode. In Model1 mode, the entire Web application is almost entirely composed of JSP pages, and only a few JavaBeans are used to handle database connection and access operations. In this mode, JSP is both the control layer and the presentation layer. Obviously, there are many problems with this model. For example, ① The control logic and performance logic are mixed together, resulting in extremely low code reuse rate; ② The front-end and back-end depend on each other, it is difficult to test and the development efficiency is extremely low;
+- **Model2 era** ：Friends who have studied Servlet and have done related Demos should understand the development model of "Java Bean (Model) + JSP (View,) + Servlet (Controller)", which is the early JavaWeb MVC development model. Model: The data involved in the system, namely dao and bean. View: Display the data in the model, just for display. Controller: Process user requests and send them to, return data to JSP and display it to users.
 
-Model2 模式下还存在很多问题，Model2的抽象和封装程度还远远不够，使用Model2进行开发时不可避免地会重复造轮子，这就大大降低了程序的可维护性和复用性。于是很多JavaWeb开发相关的 MVC 框架应运而生比如Struts2，但是 Struts2 比较笨重。随着 Spring 轻量级开发框架的流行，Spring 生态圈出现了 Spring MVC 框架， Spring MVC 是当前最优秀的 MVC 框架。相比于 Struts2 ， Spring MVC 使用更加简单和方便，开发效率更高，并且 Spring MVC 运行速度更快。
+There are still many problems in Model2 mode. The degree of abstraction and encapsulation of Model2 is far from enough. When using Model2 for development, wheels will inevitably be reinvented, which greatly reduces the maintainability and reusability of the program. So many JavaWeb development-related MVC frameworks emerged such as Struts2, but Struts2 is relatively cumbersome. With the popularity of the Spring lightweight development framework, the Spring MVC framework appeared in the Spring ecosystem. Spring MVC is currently the best MVC framework. Compared with Struts2, Spring MVC is simpler and more convenient to use, with higher development efficiency, and Spring MVC runs faster.
 
-MVC 是一种设计模式,Spring MVC 是一款很优秀的 MVC 框架。Spring MVC 可以帮助我们进行更简洁的Web层的开发，并且它天生与 Spring 框架集成。Spring MVC 下我们一般把后端项目分为 Service层（处理业务）、Dao层（数据库操作）、Entity层（实体类）、Controller层(控制层，返回数据给前台页面)。
+MVC is a design pattern, and Spring MVC is an excellent MVC framework. Spring MVC can help us develop a more concise Web layer, and it is naturally integrated with the Spring framework. Under Spring MVC, we generally divide back-end projects into Service layer (processing business), Dao layer (database operations), Entity layer (entity class), Controller layer (control layer, returning data to the foreground page).
 
-**Spring MVC 的简单原理图如下：**
+**The simple schematic diagram of Spring MVC is as follows:**
 
-![](http://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-10-11/60679444.jpg)
+![](https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-10-11/60679444.jpg)
 
-### 6.2 SpringMVC 工作原理了解吗?
+### 6.2 Do you understand the working principle of SpringMVC?
 
-**原理如下图所示：**
-![SpringMVC运行原理](http://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-10-11/49790288.jpg)
+**The principle is shown in the figure below:**
+![SpringMVC operating principle](https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-10-11/49790288.jpg)
 
-上图的一个笔误的小问题：Spring MVC 的入口函数也就是前端控制器 `DispatcherServlet` 的作用是接收请求，响应结果。
+A small problem with a clerical error in the above figure: The entry function of Spring MVC, which is the front controller `DispatcherServlet`, is to receive requests and respond to results.
 
-**流程说明（重要）：**
+**Process description (important):**
 
-1. 客户端（浏览器）发送请求，直接请求到 `DispatcherServlet`。
-2. `DispatcherServlet` 根据请求信息调用 `HandlerMapping`，解析请求对应的 `Handler`。
-3. 解析到对应的 `Handler`（也就是我们平常说的 `Controller` 控制器）后，开始由 `HandlerAdapter` 适配器处理。
-4. `HandlerAdapter` 会根据 `Handler `来调用真正的处理器来处理请求，并处理相应的业务逻辑。
-5. 处理器处理完业务后，会返回一个 `ModelAndView` 对象，`Model` 是返回的数据对象，`View` 是个逻辑上的 `View`。
-6. `ViewResolver` 会根据逻辑 `View` 查找实际的 `View`。
-7. `DispaterServlet` 把返回的 `Model` 传给 `View`（视图渲染）。
-8. 把 `View` 返回给请求者（浏览器）
+1. The client (browser) sends a request directly to the DispatcherServlet.
+2. `DispatcherServlet` calls `HandlerMapping` according to the request information, and analyzes the `Handler` corresponding to the request.
+3. After parsing to the corresponding `Handler` (that is, the `Controller` controller we usually call), it starts to be processed by the `HandlerAdapter` adapter.
+4. `HandlerAdapter` will call the real handler according to `Handler` to process the request and process the corresponding business logic.
+5. After the processor finishes processing the business, it will return a `ModelAndView` object, `Model` is the returned data object, and `View` is a logical `View`.
+6. `ViewResolver` will find the actual `View` according to the logic `View`.
+7. `DispaterServlet` passes the returned `Model` to `View` (view rendering).
+8. Return `View` to requester (browser)
 
-## 7. Spring 框架中用到了哪些设计模式？
+## 7. What design patterns are used in the Spring framework?
 
-关于下面一些设计模式的详细介绍，可以看笔主前段时间的原创文章[《面试官:“谈谈Spring中都用到了那些设计模式?”。》](https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485303&idx=1&sn=9e4626a1e3f001f9b0d84a6fa0cff04a&chksm=cea248bcf9d5c1aaf48b67cc52bac74eb29d6037848d6cf213b0e5466f2d1fda970db700ba41&token=255050878&lang=zh_CN#rd) 。
+For a detailed introduction to some of the following design patterns, you can read the original article of the author some time ago[《Interviewer: "Talk about those design patterns used in Spring?".》](https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485303&idx=1&sn=9e4626a1e3f001f9b0d84a6fa0cff04a&chksm=cea248bcf9d5c1aaf48b67cc52bac74eb29d6037848d6cf213b0e5466f2d1fda970db700ba41&token=255050878&lang=zh_CN#rd) 。
 
-- **工厂设计模式** : Spring使用工厂模式通过 `BeanFactory`、`ApplicationContext` 创建 bean 对象。
-- **代理设计模式** : Spring AOP 功能的实现。
-- **单例设计模式** : Spring 中的 Bean 默认都是单例的。
-- **模板方法模式** : Spring 中 `jdbcTemplate`、`hibernateTemplate` 等以 Template 结尾的对数据库操作的类，它们就使用到了模板模式。
-- **包装器设计模式** : 我们的项目需要连接多个数据库，而且不同的客户在每次访问中根据需要会去访问不同的数据库。这种模式让我们可以根据客户的需求能够动态切换不同的数据源。
-- **观察者模式:** Spring 事件驱动模型就是观察者模式很经典的一个应用。
-- **适配器模式** :Spring AOP 的增强或通知(Advice)使用到了适配器模式、spring MVC 中也是用到了适配器模式适配`Controller`。
+- **Factory design pattern**: Spring uses the factory pattern to create bean objects through `BeanFactory` and `ApplicationContext`.
+- **Agency design pattern**: Implementation of Spring AOP function.
+- **Singleton design pattern**: Beans in Spring are singletons by default.
+- **Template method pattern**: Spring's `jdbcTemplate`, `hibernateTemplate` and other classes that end with Template for database operations, they use the template mode.
+- **Wrapper design pattern**: Our project needs to connect to multiple databases, and different customers will visit different databases according to their needs during each visit. This model allows us to dynamically switch between different data sources according to customer needs.
+- **Observer mode**: The Spring event-driven model is a classic application of the observer pattern.
+- **Adapter mode**: The enhancement or advice of Spring AOP uses the adapter pattern, and spring MVC also uses the adapter pattern adaptation `Controller`.
 - ......
 
-## 8. Spring 事务
+## 8. Spring transaction
 
-### 8.1 Spring 管理事务的方式有几种？
+### 8.1 How many ways does Spring manage transactions?
 
-1. 编程式事务，在代码中硬编码。(不推荐使用)
-2. 声明式事务，在配置文件中配置（推荐使用）
+1. Programmatic transactions, hard-coded in the code. (Not recommended)
+2. Declarative transaction, configured in the configuration file (recommended)
 
-**声明式事务又分为两种：**
+**Declarative transactions are divided into two types:**
 
-1. 基于XML的声明式事务
-2. 基于注解的声明式事务
+1. XML-based declarative transaction
+2. Annotation-based declarative transaction
 
-### 8.2 Spring 事务中的隔离级别有哪几种?
+### 8.2 What are the isolation levels in Spring transactions?
 
-**TransactionDefinition 接口中定义了五个表示隔离级别的常量：**
+**Five constants representing isolation levels are defined in the TransactionDefinition interface:**
 
-- **TransactionDefinition.ISOLATION_DEFAULT:**  使用后端数据库默认的隔离级别，Mysql 默认采用的 REPEATABLE_READ隔离级别 Oracle 默认采用的 READ_COMMITTED隔离级别.
-- **TransactionDefinition.ISOLATION_READ_UNCOMMITTED:** 最低的隔离级别，允许读取尚未提交的数据变更，**可能会导致脏读、幻读或不可重复读**
-- **TransactionDefinition.ISOLATION_READ_COMMITTED:**   允许读取并发事务已经提交的数据，**可以阻止脏读，但是幻读或不可重复读仍有可能发生**
-- **TransactionDefinition.ISOLATION_REPEATABLE_READ:**  对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，**可以阻止脏读和不可重复读，但幻读仍有可能发生。**
-- **TransactionDefinition.ISOLATION_SERIALIZABLE:**   最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，**该级别可以防止脏读、不可重复读以及幻读**。但是这将严重影响程序的性能。通常情况下也不会用到该级别。
+- **TransactionDefinition.ISOLATION_DEFAULT:**  Use the default isolation level of the back-end database, the default REPEATABLE_READ isolation level used by Mysql, the default READ_COMMITTED isolation level used by Oracle.
+- **TransactionDefinition.ISOLATION_READ_UNCOMMITTED:** The lowest isolation level, allowing to read data changes that have not yet been committed, **may cause dirty reads, phantom reads or non-repeatable reads**
+- **TransactionDefinition.ISOLATION_READ_COMMITTED:**   Allows to read data that has been committed by concurrent transactions, **can prevent dirty reads, but phantom reads or non-repeatable reads may still occur**
+- **TransactionDefinition.ISOLATION_REPEATABLE_READ:**  The results of multiple reads of the same field are consistent, unless the data is modified by the transaction itself, ** can prevent dirty reads and non-repeatable reads, but phantom reads may still occur. **
+- **TransactionDefinition.ISOLATION_SERIALIZABLE:**   The highest isolation level, fully obeys the ACID isolation level. All transactions are executed one by one, so that there is no interference between transactions, that is to say, **this level can prevent dirty reads, non-repeatable reads, and phantom reads**. But this will seriously affect the performance of the program. Normally, this level is not used either.
 
-### 8.3 Spring 事务中哪几种事务传播行为?
+### 8.3 What kinds of transaction propagation behaviors in Spring transactions?
 
 **支持当前事务的情况：**
 
@@ -286,7 +286,7 @@ MVC 是一种设计模式,Spring MVC 是一款很优秀的 MVC 框架。Spring M
 
 - **TransactionDefinition.PROPAGATION_NESTED：** 如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于TransactionDefinition.PROPAGATION_REQUIRED。
 
-### 8.4 @Transactional(rollbackFor = Exception.class)注解了解吗？
+### 8.4 @Transactional(rollbackFor = Exception.class) annotation understand?
 
 我们知道：Exception分为运行时异常RuntimeException和非运行时异常。事务管理对于企业应用来说是至关重要的，即使出现异常情况，它也可以保证数据的一致性。
 
@@ -300,9 +300,9 @@ MVC 是一种设计模式,Spring MVC 是一款很优秀的 MVC 框架。Spring M
 
 ## 9. JPA
 
-### 9.1 如何使用JPA在数据库中非持久化一个字段？
+### 9.1 How to use JPA to non-persistent a field in the database?
 
-假如我们有有下面一个类：
+If we have the following class:
 
 ```java
 Entity(name="USER")
@@ -324,7 +324,7 @@ public class User {
 }
 ```
 
-如果我们想让`secrect` 这个字段不被持久化，也就是不被数据库存储怎么办？我们可以采用下面几种方法：
+What if we want the `secrect` field not to be persisted, that is, not to be stored in the database? We can use the following methods:
 
 ```java
 static String transient1; // not persistent because of static
@@ -334,7 +334,7 @@ transient String transient3; // not persistent because of transient
 String transient4; // not persistent because of @Transient
 ```
 
-一般使用后面两种方式比较多，我个人使用注解的方式比较多。
+Generally, the latter two methods are used more often, and I personally use annotations more.
 
 
 ## 参考
