@@ -270,33 +270,33 @@ For a detailed introduction to some of the following design patterns, you can re
 
 ### 8.3 What kinds of transaction propagation behaviors in Spring transactions?
 
-**支持当前事务的情况：**
+**Support current affairs:**
 
-- **TransactionDefinition.PROPAGATION_REQUIRED：** 如果当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务。
-- **TransactionDefinition.PROPAGATION_SUPPORTS：** 如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行。
-- **TransactionDefinition.PROPAGATION_MANDATORY：** 如果当前存在事务，则加入该事务；如果当前没有事务，则抛出异常。（mandatory：强制性）
+- **TransactionDefinition.PROPAGATION_REQUIRED：** If there is a current transaction, then join the transaction; if there is no current transaction, then create a new transaction.
+- **TransactionDefinition.PROPAGATION_SUPPORTS：** If there is currently a transaction, then join the transaction; if there is no current transaction, continue to run in a non-transactional manner.
+- **TransactionDefinition.PROPAGATION_MANDATORY：** If there is currently a transaction, then join the transaction; if there is no current transaction, an exception is thrown. (Mandatory: mandatory)
 
-**不支持当前事务的情况：**
+**The situation where the current transaction is not supported:**
 
-- **TransactionDefinition.PROPAGATION_REQUIRES_NEW：** 创建一个新的事务，如果当前存在事务，则把当前事务挂起。
-- **TransactionDefinition.PROPAGATION_NOT_SUPPORTED：** 以非事务方式运行，如果当前存在事务，则把当前事务挂起。
-- **TransactionDefinition.PROPAGATION_NEVER：** 以非事务方式运行，如果当前存在事务，则抛出异常。
+- **TransactionDefinition.PROPAGATION_REQUIRES_NEW：** Create a new transaction, if there is a transaction currently, then suspend the current transaction.
+- **TransactionDefinition.PROPAGATION_NOT_SUPPORTED：** Run in non-transactional mode. If there is a transaction currently, the current transaction is suspended.
+- **TransactionDefinition.PROPAGATION_NEVER：** Run in non-transactional mode. If there is a transaction currently, an exception is thrown.
 
-**其他情况：**
+**Other situations:**
 
-- **TransactionDefinition.PROPAGATION_NESTED：** 如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于TransactionDefinition.PROPAGATION_REQUIRED。
+- **TransactionDefinition.PROPAGATION_NESTED：** If there is a transaction currently, a transaction is created to run as a nested transaction of the current transaction; if there is no transaction currently, the value is equivalent to TransactionDefinition.PROPAGATION_REQUIRED.
 
 ### 8.4 @Transactional(rollbackFor = Exception.class) annotation understand?
 
-我们知道：Exception分为运行时异常RuntimeException和非运行时异常。事务管理对于企业应用来说是至关重要的，即使出现异常情况，它也可以保证数据的一致性。
+We know: Exception is divided into runtime exception RuntimeException and non-runtime exception. Transaction management is very important for enterprise applications. Even if abnormal conditions occur, it can also ensure data consistency.
 
-当`@Transactional`注解作用于类上时，该类的所有 public 方法将都具有该类型的事务属性，同时，我们也可以在方法级别使用该标注来覆盖类级别的定义。如果类或者方法加了这个注解，那么这个类里面的方法抛出异常，就会回滚，数据库里面的数据也会回滚。
+When the `@Transactional` annotation is applied to a class, all public methods of the class will have the transaction attribute of this type. At the same time, we can also use this annotation at the method level to override the class-level definition. If this annotation is added to the class or method, then the method in this class throws an exception, it will be rolled back, and the data in the database will also be rolled back.
 
-在`@Transactional`注解中如果不配置`rollbackFor`属性,那么事务只会在遇到`RuntimeException`的时候才会回滚,加上`rollbackFor=Exception.class`,可以让事务在遇到非运行时异常时也回滚。
+If the `rollbackFor` property is not configured in the `@Transactional` annotation, then the transaction will only be rolled back when it encounters `RuntimeException`, plus `rollbackFor=Exception.class`, you can make the transaction encounter non-running It also rolls back when it is abnormal.
 
-关于 `@Transactional ` 注解推荐阅读的文章：
+Recommended reading articles about `@Transactional` annotation:
 
-- [透彻的掌握 Spring 中@transactional 的使用](https://www.ibm.com/developerworks/cn/java/j-master-spring-transactional-use/index.html)
+- [Thoroughly grasp the use of @transactional in Spring](https://www.ibm.com/developerworks/cn/java/j-master-spring-transactional-use/index.html)
 
 ## 9. JPA
 
@@ -337,9 +337,9 @@ String transient4; // not persistent because of @Transient
 Generally, the latter two methods are used more often, and I personally use annotations more.
 
 
-## 参考
+## Reference
 
-- 《Spring 技术内幕》
+- 《Spring technology insider》
 - <http://www.cnblogs.com/wmyskxz/p/8820371.html>
 - <https://www.journaldev.com/2696/spring-interview-questions-and-answers>
 - <https://www.edureka.co/blog/interview-questions/spring-interview-questions/>
